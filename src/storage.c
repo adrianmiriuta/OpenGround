@@ -175,7 +175,7 @@ static void storage_load_defaults(void) {
     storage_mode_set_name(0, "Model X");
     storage.model[0].timer = 3*60;
     storage.model[0].stick_scale = 100;
-    storage.model[0].protocol = FRSKY_X;
+    storage.model[0].protocol = FRSKY_X_EU;
     storage.model[0].rx_number = 0;
 
     storage_mode_set_name(1, "Model D");
