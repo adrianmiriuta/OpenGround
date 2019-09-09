@@ -439,7 +439,7 @@ void gui_loop(void) {
         }
 
         // render ui
-        if (adc_get_channel_rescaled(CHANNEL_ID_CH3) < 0) {
+        if (adc_get_channel_rescaled(CHANNEL_ID_CH1) < -1600) {
             // show console on switch down
             console_render();
             screen_update();
@@ -969,7 +969,7 @@ static void gui_setup_clonetx_render(void) {
             // DONE. REBOOT NECESSARY
             break;
     }
-    
+
 }
 
 static void gui_setup_bindmode_render(void) {

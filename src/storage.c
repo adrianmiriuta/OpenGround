@@ -165,9 +165,9 @@ static void storage_load_defaults(void) {
     }
 
     // add example model
-    storage_mode_set_name(0, "TinyWhoop");
-    storage.model[0].timer = 3*60;
-    storage.model[i].stick_scale = 50;
+    storage_mode_set_name(0, "OpenGround");
+    storage.model[0].timer = 10*60;
+    storage.model[0].stick_scale = 100;
     storage.current_model = 0;
 }
 
