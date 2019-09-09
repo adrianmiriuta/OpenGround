@@ -9,6 +9,8 @@ BIN_DIR      = $(ROOT)/bin
 CFLAGS  = -O1 -g
 ASFLAGS = -g
 
+REVISION := $(shell git log -1 --format="%h")
+
 # dfu util path
 DFU_UTIL ?= dfu-util
 
@@ -76,13 +78,14 @@ SCRIPT_DIR	= $(OPENCM3_DIR)/scripts
 ###############################################################################
 # C flags
 
-TGT_CFLAGS	+= $(OPT) $(CSTD) -g
-TGT_CFLAGS	+= $(ARCH_FLAGS)
-TGT_CFLAGS	+= -Wextra -Wshadow -Wimplicit-function-declaration
-TGT_CFLAGS	+= -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes
-TGT_CFLAGS	+= -fno-common -ffunction-sections -fdata-sections
-TGT_CFLAGS      += -MD -Wall -Wundef
-TGT_CFLAGS      += $(DEFS)
+TGT_CFLAGS  += $(OPT) $(CSTD) -g
+TGT_CFLAGS  += $(ARCH_FLAGS)
+TGT_CFLAGS  += -Wextra -Wshadow -Wimplicit-function-declaration
+TGT_CFLAGS  += -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes
+TGT_CFLAGS  += -fno-common -ffunction-sections -fdata-sections
+TGT_CFLAGS  += -MD -Wall -Wundef
+TGT_CFLAGS  += $(DEFS)
+TGT_CFLAGS  +=-D'__REVISION__="$(REVISION)"'
 
 ###############################################################################
 # Linker flags
@@ -109,7 +112,7 @@ LDLIBS		+= -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 .SECONDEXPANSION:
 .SECONDARY:
 
-all: elf 
+all: elf
 
 elf: $(BIN_DIR)/$(TARGET).elf
 bin: $(BIN_DIR)/$(TARGET).bin

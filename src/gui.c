@@ -569,8 +569,8 @@ static void gui_render_bottombar(void) {
     screen_fill_rect(0, LCD_HEIGHT - 7, LCD_WIDTH, 7, 1);
 
     screen_set_font(font_tomthumb3x5, &h, 0);
-    screen_puts_centered(LCD_HEIGHT - 7 + h/2, 0,
-                         storage.model[storage.current_model].name);
+    screen_puts_xy(0, LCD_HEIGHT - 6 , 0, __REVISION__);
+    screen_puts_centered(LCD_HEIGHT - 7 + h/2, 0,storage.model[storage.current_model].name);
 }
 
 
@@ -1006,8 +1006,7 @@ static void gui_config_model_render_main(void) {
     // add model name
     screen_puts_centered(y, 1, storage.model[storage.current_model].name);
     // register the callback
-    gui_touch_callback_register(20, LCD_WIDTH - 20, y, y + h,
-                                &gui_cb_setting_model_name);
+    gui_touch_callback_register(20, LCD_WIDTH - 20, y, y + h, &gui_cb_setting_model_name);
 
     // add < ... > buttons
     gui_add_button_smallfont(3, y - 3, 15, 10, "<", &gui_cb_model_prev);
