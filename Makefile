@@ -109,7 +109,7 @@ LDLIBS		+= -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 .SECONDEXPANSION:
 .SECONDARY:
 
-all: stylecheck elf 
+all: elf 
 
 elf: $(BIN_DIR)/$(TARGET).elf
 bin: $(BIN_DIR)/$(TARGET).bin
@@ -156,11 +156,11 @@ $(BIN_DIR)/%.elf $(BIN_DIR)/%.map: $(OBJS) $(LDSCRIPT) bin_dir
 	@printf "  LD      $(*).elf\n"
 	$(Q)$(LD) $(TGT_LDFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(BIN_DIR)/$(*).elf
 
-$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c libopencm3 obj_dir src/hoptable.h 
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.c libopencm3 obj_dir src/hoptable.h
 	@printf "  CC      $(*).c\n"
 	$(Q)$(CC) $(TGT_CFLAGS) $(CFLAGS) -o $(OBJECT_DIR)/$(*).o -c $(SOURCE_DIR)/$(*).c
 
-src/hoptable.h: 
+src/hoptable.h:
 	python ./scripts/generate_hoptable.py > src/hoptable.h
 
 clean:
@@ -216,13 +216,13 @@ else
 		   -x $(SCRIPT_DIR)/stlink_flash.scr \
 		   $(*).elf
 endif
-sterase : 
+sterase :
 	st-flash erase
 
 stflasherase : sterase stflash
 
 stflash : $(BIN_DIR)/$(TARGET).bin
-	st-flash --reset write $(BIN_DIR)/$(TARGET).bin 0x8000000 
+	st-flash --reset write $(BIN_DIR)/$(TARGET).bin 0x8000000
 
 
 dfu : $(BIN_DIR)/$(TARGET).bin
@@ -231,7 +231,7 @@ dfu : $(BIN_DIR)/$(TARGET).bin
 
 libopencm3 : libopencm3/lib/libopencm3_stm32f0.a submodules
 
-libopencm3/lib/libopencm3_stm32f0.a: 
+libopencm3/lib/libopencm3_stm32f0.a:
 	$(MAKE) -C libopencm3
 
 #git submodules handling
