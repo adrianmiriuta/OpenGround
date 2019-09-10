@@ -1,22 +1,3 @@
-/*
-    Copyright 2016 fishpepper <AT> gmail.com
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-    author: fishpepper <AT> gmail.com
-*/
-
 #include "telemetry.h"
 #include "debug.h"
 #include "fifo.h"
@@ -77,8 +58,7 @@ void telemetry_process(void) {
 static void telemetry_parse_stream(uint8_t byte) {
     if (telemetry_state == TELEMETRY_DATA_END) {
         if (byte == 0x5e) {
-            telemetry_process_hub_packet(telemetry_data_id,
-                                         (telemetry_high_byte << 8) + telemetry_low_byte);
+            telemetry_process_hub_packet(telemetry_data_id, (telemetry_high_byte << 8) + telemetry_low_byte);
             telemetry_state = TELEMETRY_DATA_ID;
         } else {
             telemetry_state = TELEMETRY_IDLE;
@@ -153,11 +133,9 @@ static void telemetry_process_hub_packet(uint8_t id, uint16_t value) {
             // we will ignore this data
             break;
 
-        case 0x04:  // Fuel  0, 25, 50, 75, 100
-            // betaflight sends capacity in mah (default)
+        case 0x04:  // Fuel  betaflight sends capacity in mah (default)
             telemetry_decoded_data_mah =  value;
             break;
-
 
         case 0x28:  // Current 0A-100A (0.1A/count)
             telemetry_decoded_data_current = value * 10;
@@ -169,7 +147,7 @@ static void telemetry_process_hub_packet(uint8_t id, uint16_t value) {
             break;
 
         case 0x39:  // VFAS_ID
-            telemetry_decoded_data_voltage = value * 10;
+            telemetry_decoded_data_voltage = value * 3.3;
             break;
 
         case 0x3A:  // Ampere sensor voltage (whole number) (measured as V) 0V-48V (0.5V/count)
@@ -178,8 +156,7 @@ static void telemetry_process_hub_packet(uint8_t id, uint16_t value) {
             break;
         case 0x3B:  // Ampere sensor voltage (fractional part)
             if (telemetry_last_id == 0x3A) {
-                telemetry_decoded_data_voltage =
-                        ((telemetry_last_value * 100 + value * 10) * 210) / 110;
+                telemetry_decoded_data_voltage = ((telemetry_last_value * 100 + value * 10) * 210) / 110;
             }
             break;
     }
