@@ -1,23 +1,3 @@
-/*
-    Copyright 2016 fishpepper <AT> gmail.com
-
-    This program is free software: you can redistribute it and/ or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http:// www.gnu.org/licenses/>.
-
-    author: fishpepper <AT> gmail.com
-*/
-
-
 #include "gui.h"
 #include "debug.h"
 #include "config.h"
@@ -753,13 +733,21 @@ static void gui_render_main_screen(void) {
     screen_put_fixed2_1digit(x, y, 1, telemetry_get_voltage());
     x += w*3 + 3;
     screen_puts_xy(x, y, 1, "V");
+    
+    if (telemetry_get_voltage() < 3.3) {
+        if ((gui_loop_counter % 7) == 0) {
+            sound_play_low_time();
+        }
+    }
 
+    // render current
     x = 1;
     y += h;
     screen_put_fixed2_1digit(x, y, 1, telemetry_get_current());
     x += w*3 + 3;
     screen_puts_xy(x, y, 1, "A");
 
+    // render consumption
     x = LCD_WIDTH - (font_metric7x12[FONT_FIXED_WIDTH]+1)*7 - 1;
     y += h;
     y += 5;
@@ -777,8 +765,8 @@ static void gui_render_main_screen(void) {
             color = 1 - color;
         }
     }
-    if ((gui_model_timer > 0) && (gui_model_timer < 15)) {
-        if ((gui_loop_counter % 10) == 0) {
+    if ((gui_model_timer > 0) && (gui_model_timer < 13)) {
+        if ((gui_loop_counter % 11) == 0) {
             // beep!
             sound_play_low_time();
         }

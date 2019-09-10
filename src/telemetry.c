@@ -109,7 +109,6 @@ static void telemetry_process_hub_packet(uint8_t id, uint16_t value) {
         case 0x02:  // TEMP1 -30C-250C (1C/ count)
         case 0x03:  // RPM   0-60000
         case 0x05:  // TEMP2 -30C-250C (1C/ count)
-        case 0x06:  // Battery voltages - CELL# and VOLT
         case 0x10:  // ALT (whole number & sign) -500m-9000m (.01m/count)
         case 0x21:  // ALT (fraction)  (.01m/count)
         case 0x11:  // GPS Speed (whole number and sign) in Knots
@@ -139,15 +138,20 @@ static void telemetry_process_hub_packet(uint8_t id, uint16_t value) {
 
         case 0x28:  // Current 0A-100A (0.1A/count)
             telemetry_decoded_data_current = value * 10;
-            /*set_telemetry(TELEM_FRSKY_CURRENT, value);
+            /*
+            set_telemetry(TELEM_FRSKY_CURRENT, value);
             if (discharge_time == 0) discharge_time = CLOCK_getms();
             discharge_dAms += (u32)value * (CLOCK_getms() - discharge_time);
             discharge_time = CLOCK_getms();
             set_telemetry(TELEM_FRSKY_DISCHARGE, discharge_dAms / 36000);*/
             break;
 
+        case 0x06:  // Battery voltages - CELL# and VOLT
+          telemetry_decoded_data_voltage = (((value & 0xff00) >> 8) | ((value & 0x000f) << 8)) * 0.2;
+
+        /*
         case 0x39:  // VFAS_ID
-            telemetry_decoded_data_voltage = value * 3.3;
+            telemetry_decoded_data_voltage = value;
             break;
 
         case 0x3A:  // Ampere sensor voltage (whole number) (measured as V) 0V-48V (0.5V/count)
@@ -158,7 +162,7 @@ static void telemetry_process_hub_packet(uint8_t id, uint16_t value) {
             if (telemetry_last_id == 0x3A) {
                 telemetry_decoded_data_voltage = ((telemetry_last_value * 100 + value * 10) * 210) / 110;
             }
-            break;
+            break;*/
     }
 /*
     if (value >= VFAS_D_HIPREC_OFFSET) {
