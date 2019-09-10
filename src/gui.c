@@ -733,8 +733,8 @@ static void gui_render_main_screen(void) {
     screen_put_fixed2_1digit(x, y, 1, telemetry_get_voltage());
     x += w*3 + 3;
     screen_puts_xy(x, y, 1, "V");
-    
-    if (telemetry_get_voltage() < 3.3) {
+
+    if (telemetry_get_voltage() < 340) {
         if ((gui_loop_counter % 7) == 0) {
             sound_play_low_time();
         }
