@@ -751,11 +751,13 @@ static void gui_render_main_screen(void) {
     screen_set_font(font_metric7x12, &h, &w);
     x = 1;
     y += h;
+    y += 5;
     screen_put_fixed3_digit(x, y, 1, telemetry_get_heading());
-    
+
     x += w*3 + 3;
-    //screen_puts_xy(x, y, 1, "o");
+    screen_puts_xy(x, y, 1, "D");
     y -= h;
+    y -= 5;
 
 
     // render consumption
