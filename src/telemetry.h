@@ -10,6 +10,7 @@ void telemetry_process(void);
 uint16_t telemetry_get_voltage(void);
 uint16_t telemetry_get_current(void);
 uint16_t telemetry_get_mah(void);
+uint16_t telemetry_get_heading(void);
 
 // FrSky telemetry stream state machine
 typedef enum {
