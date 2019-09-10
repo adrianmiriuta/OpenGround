@@ -481,15 +481,12 @@ static void gui_render_battery(void) {
   screen_draw_round_rect(x, 1, 21, 5, 2, 0);
   screen_draw_vline(x+20, 1, 5, 0);
 
-  // show fillgrade
-  // assume nimh batteries with 1.2V > 90% / 1.0V = 5%
-  //                         = 4.8V       / 4.0V
-  // i know this is not 100% correct, better calc is tbd ;)
-  int32_t fill_percent = ((17 * v_bat)/ 16) - 420;
-  fill_percent = max(min(fill_percent, 100), 5);
+  // assume 2xLipo
+  int32_t fill_percent = (v_bat * 0.625) - 412;
+  fill_percent = max(min(fill_percent, 100), 0);
 
   // 0% = 0px, 100% = 20px
-  int32_t fill_px = max(0, min(20, fill_percent / 5));
+  int32_t fill_px = max(0, min(20, fill_percent * 0.2));
   // draw fill grade
   screen_fill_rect(x+1, 1+1, fill_px, 3, 0);
 }
@@ -729,7 +726,7 @@ static void gui_render_main_screen(void) {
   x += w*3 + 3;
   screen_puts_xy(x, y, 1, "V");
 
-  if (telemetry_get_voltage() < 340) {
+  if ((telemetry_get_voltage() < 340) && (telemetry_get_voltage() > 111) {
     if ((gui_loop_counter % 7) == 0) {
       sound_play_low_time();
     }
