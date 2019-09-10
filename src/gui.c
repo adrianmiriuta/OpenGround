@@ -724,7 +724,9 @@ static void gui_render_main_screen(void) {
   y = 10;
   screen_put_fixed2_1digit(x, y, 1, telemetry_get_voltage());
   x += w*3 + 3;
+  screen_set_font(font_system5x7, &h, 0);
   screen_puts_xy(x, y, 1, "V");
+  screen_set_font(font_metric7x12, &h, &w);
 
   if ((telemetry_get_voltage() < 340) && (telemetry_get_voltage() > 111)) {
     if ((gui_loop_counter % 7) == 0) {
@@ -737,7 +739,9 @@ static void gui_render_main_screen(void) {
   y += h;
   screen_put_fixed2_1digit(x, y, 1, telemetry_get_current());
   x += w*3 + 3;
+  screen_set_font(font_system5x7, &h, 0);
   screen_puts_xy(x, y, 1, "A");
+  screen_set_font(font_metric7x12, &h, &w);
 
   // render heading
   screen_set_font(font_metric7x12, &h, &w);
@@ -745,12 +749,12 @@ static void gui_render_main_screen(void) {
   y += h;
   y += 5;
   screen_put_fixed3_digit(x, y, 1, telemetry_get_heading());
-
   x += w*3 + 3;
-  screen_puts_xy(x, y, 1, "D");
+  screen_set_font(font_system5x7, &h, 0);
+  screen_puts_xy(x, y, 1, "O");
+  screen_set_font(font_metric7x12, &h, &w);
   y -= h;
   y -= 5;
-
 
   // render consumption
   x = LCD_WIDTH - (font_metric7x12[FONT_FIXED_WIDTH]+1)*7 - 1;
@@ -758,7 +762,8 @@ static void gui_render_main_screen(void) {
   y += 5;
   screen_put_uint14(x, y, 1, telemetry_get_mah());
   x += w*4 + 1;
-  screen_puts_xy(x, y, 1, "MAH");
+  screen_set_font(font_system5x7, &h, 0);
+  screen_puts_xy(x, y, 1, "mAh");
 
   // screen_set_font(font_metric7x12);
   screen_set_font(font_metric15x26, &h, &w);
