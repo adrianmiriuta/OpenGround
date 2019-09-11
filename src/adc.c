@@ -52,6 +52,7 @@ uint16_t adc_get_channel(uint32_t id) {
             case (CHANNEL_ID_CH1)      : return 4095 - adc_data[7];
             case (CHANNEL_ID_CH2)      : return adc_data[8];
             case (CHANNEL_ID_CH3)      : return adc_data[9];
+            case (CHANNEL_ID_CH4)      : return adc_data[5];
         }
     } else if (config_hw_revision == CONFIG_HW_REVISION_EVOLUTION) {
         // TGY Evolution mapping:

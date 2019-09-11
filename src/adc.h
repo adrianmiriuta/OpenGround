@@ -24,6 +24,7 @@ typedef enum {
   CHANNEL_ID_CH1,
   CHANNEL_ID_CH2,
   CHANNEL_ID_CH3,
+  CHANNEL_ID_CH4,
   CHANNEL_ID_SIZE
 } channel_id_t;
 

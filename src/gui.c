@@ -437,6 +437,12 @@ void gui_loop(void) {
       gui_render();
     }
 
+    if (adc_get_channel_rescaled(CHANNEL_ID_CH4) < -1600) {
+      led_backlight_off();
+    } else {
+      led_backlight_on();
+    }
+
     gui_loop_counter++;
 
     wdt_reset();
