@@ -443,6 +443,13 @@ void gui_loop(void) {
       led_backlight_on();
     }
 
+    if ((adc_get_battery_voltage() < 660)) {
+      if ((gui_loop_counter % 7) == 0) {
+        led_backlight_off();
+        sound_play_low_time();
+      }
+    }
+
     gui_loop_counter++;
 
     wdt_reset();
